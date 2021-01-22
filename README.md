@@ -21,7 +21,7 @@ Join Data Drivers and compete with drivers from around the world while getting h
 Be data driven. Join Data Drivers! 
 
 
-##Looking To Get Started?
+## Looking To Get Started?
 
 
 Check out the repos below. We'll include links of what you'll need to download and tutorials on how to get Data2Everything on the track!

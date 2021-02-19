@@ -15,10 +15,27 @@ NOW IT’S YOUR TURN to get in on the racing action and get hands-on experience 
 ### iRacing Championship Series - 
 We need data after all, so we will host the Data Drivers Championship Racing Series on iRacing with monthly races broadcast on Splunk’s Twitch Stream while we create the data we need!  
 
+| Race Date (12PM PT) | Race Track              | Broadcast Date (12PM PT) |
+|---------------------|-------------------------|--------------------------|
+| March 2             | Barber Motorsports Park | March 4                  |
+| April 6             | Brands Hatch            | April 8                  |
+| May 4               | Circuit De Spa          | May 6                    |
+| June 1              | Phillip Island Circuit  | June 3                   |
+| June 29             | Twin Ring Motegi        | July 1                   |
+| August 3            | Sonoma Raceway          | August 5                 |
+
+
 ### Hackathons - 
 Turning data into action is what Splunk’s Data-To-Everything platform is all about, so we’ll be hosting a live session with Splunk subject matter experts to explore how unique IT functionality in Splunk can be applied to our racing scenarios.  This will be a great chance to learn tips and tricks on how to leverage Splunk in creative ways to bring data to every question, decision and action!
 
-
+| Date (12PM PT) | Topic                                                                |
+|----------------|----------------------------------------------------------------------|
+| March 5        | Intro, participant access overview, Windows Smart Agent on gaming PC |
+| April 9        | iRacing GDI: Custom data ingestion with Python                       |
+| May 7          | Getting started with ITSI: Build KPIs that matter                    |
+| June 4         | Build a "service" that is our race                                   |
+| July 2         | Race Day visualizations for the pit wall                             |
+| August 6       | Data to action & thresholds at speed                                 |
 
 
 Join Data Drivers and compete with drivers from around the world while getting hands-on experience using Splunk’s incredible Data-To-Everything platform.  

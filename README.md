@@ -1,4 +1,4 @@
-![Data Drivers Logo](https://cdn.discordapp.com/attachments/812163910316458016/812164242413060107/21-17104-SPLK-datadriverhackathon-logo-102.png)
+![Data Drivers Logo](https://cdn.discordapp.com/attachments/812163910316458016/812366549201584158/DataDrivers-Small.png)
 
 # Be Data Driven.  Join Data Drivers!
 Join Splunk’s IT Strategists and The Big Data Beard for Data Drivers; an iRacing Championship Series and Hands-on Hackathons to learn how Splunk’s powerful IT tools turn racing data into action!

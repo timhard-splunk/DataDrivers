@@ -47,3 +47,5 @@ Be data driven. Join Data Drivers!
 
 
 Check out the repos below. We'll include links of what you'll need to download and tutorials on how to get Data2Everything on the track!
+
+Go follow https://www.twitch.tv/splunkinc for all the upcoming broadcasts

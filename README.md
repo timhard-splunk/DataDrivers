@@ -17,12 +17,12 @@ We need data after all, so we will host the Data Drivers Championship Racing Ser
 
 | Race Date (12PM PT) | Race Track              | Broadcast Date (12PM PT) |
 |---------------------|-------------------------|--------------------------|
-| March 2             | Barber Motorsports Park | March 4                  |
-| April 6             | Brands Hatch            | April 8                  |
-| May 4               | Circuit De Spa          | May 6                    |
-| June 1              | Phillip Island Circuit  | June 3                   |
-| June 29             | Twin Ring Motegi        | July 1                   |
-| August 3            | Sonoma Raceway          | August 5                 |
+| March 30            | Barber Motorsports Park | April 1                  |
+| April 27            | Brands Hatch            | April 29                 |
+| May 25              | Circuit De Spa          | May 27                   |
+| June 22             | Phillip Island Circuit  | June 24                  |
+| July 20             | Twin Ring Motegi        | July 22                  |
+| August 17           | Sonoma Raceway          | August 19                |
 
 
 ### Hackathons - 
@@ -30,12 +30,12 @@ Turning data into action is what Splunk’s Data-To-Everything platform is all a
 
 | Date (12PM PT) | Topic                                                                |
 |----------------|----------------------------------------------------------------------|
-| March 5        | Intro, participant access overview, Windows Smart Agent on gaming PC |
-| April 9        | iRacing GDI: Custom data ingestion with Python                       |
-| May 7          | Getting started with ITSI: Build KPIs that matter                    |
-| June 4         | Build a "service" that is our race                                   |
-| July 2         | Race Day visualizations for the pit wall                             |
-| August 6       | Data to action & thresholds at speed                                 |
+| April 2        | Intro, participant access overview, Windows Smart Agent on gaming PC |
+| April 30       | iRacing GDI: Custom data ingestion with Python                       |
+| May 28         | Getting started with ITSI: Build KPIs that matter                    |
+| June 25        | Build a "service" that is our race                                   |
+| July 23        | Race Day visualizations for the pit wall                             |
+| August 20      | Data to action & thresholds at speed                                 |
 
 
 Join Data Drivers and compete with drivers from around the world while getting hands-on experience using Splunk’s incredible Data-To-Everything platform.  

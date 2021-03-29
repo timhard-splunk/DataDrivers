@@ -45,7 +45,6 @@ Be data driven. Join Data Drivers!
 
 ## Looking To Get Started?
 
-
-Check out the repos below. We'll include links of what you'll need to download and tutorials on how to get Data2Everything on the track!
+[Sign up here!](https://events.splunk.com/Join_DataDrivers) We'll be emailing links for the repos and instructions on getting setup.
 
 Go follow https://www.twitch.tv/splunkinc for all the upcoming broadcasts

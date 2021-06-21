@@ -20,7 +20,7 @@ We need data after all, so we will host the Data Drivers Championship Racing Ser
 | March 30            | Barber Motorsports Park | April 1                  |
 | April 27            | Brands Hatch            | April 29                 |
 | June 1              | Circuit De Spa          | June 3                   |
-| June 22             | Phillip Island Circuit  | June 24                  |
+| June 22             | Bristol Motor Speedway  | June 24                  |
 | July 20             | Twin Ring Motegi        | July 22                  |
 | August 17           | Sonoma Raceway          | August 19                |
 

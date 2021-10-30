@@ -9,6 +9,7 @@ from datetime import datetime
 import signalfx
 import irsdk
 import argparse
+import requests
 
 
 # Syntax:
@@ -16,7 +17,9 @@ import argparse
 #
 parser = argparse.ArgumentParser(description="DataDrivers - iRacing Metric Sender")
 parser.add_argument("-n", "--name", help="Your iRacing Racer Name", required=True)
-parser.add_argument("-t", "--token", help="Splunk Ingest Token", required=True)
+parser.add_argument("-t", "--token", help="Splunk SIM Ingest Token", required=False)
+parser.add_argument("-i", "--ip", help="Splunk Enterprise IP Address", required=False)
+parser.add_argument("-h", "--hec", help="Splunk Enterprise HEC Token", required=False)
 args = vars(parser.parse_args())
 
 #################################
@@ -26,6 +29,12 @@ args = vars(parser.parse_args())
 # SIM variables
 client = signalfx.SignalFx(ingest_endpoint="https://ingest.us1.signalfx.com")
 ingest = client.ingest(args["token"])
+
+
+# Splunk enterprise variables
+splunk_hec_ip = args["ip"]
+splunk_hec_port = "8088"
+splunk_hec_token = args["hec"]
 
 # Uncomment the following line to enable debug logging
 # logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
@@ -232,6 +241,25 @@ def send_metric(ir_json):
             ]
         )
 
+# function to send payload to splunk enterprise env
+def send_hec(ir_json):
+    ir_json['ts_send'] = str(datetime.utcnow())
+    event={}
+    event['host'] = args["name"]
+    event['source'] = "iracing"
+    event['event'] = ir_json
+    url = str("http://" + splunk_hec_ip + ":" + splunk_hec_port + "/services/collector")
+    header = {'Authorization' : '{}'.format('Splunk ' + splunk_hec_token)}
+    try:
+        response = requests.post(
+            url=url,
+            data=json.dumps(event),
+            headers=header)
+        response.raise_for_status()
+
+    except requests.exceptions.HTTPError as err:
+        print(err)
+
 
 def loop(json_dict):
     for key, value in json_dict.items():
@@ -239,8 +267,9 @@ def loop(json_dict):
         json_dict.update({key: value})
 
     send_lap_event(lapCounter)
+    send_hec(json_dict)
     send_metric(json_dict)
-
+    
 
 if __name__ == "__main__":
     # initializing ir and state

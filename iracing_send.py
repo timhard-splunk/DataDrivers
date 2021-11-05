@@ -13,13 +13,13 @@ import requests
 
 
 # Syntax:
-# python3 iracing_send.py -name <YOUR_NAME_HERE> -token <YOUR_TOKEN_HERE>
+# python3 iracing_send.py -name <YOUR_NAME_HERE> -token <YOUR_TOKEN_HERE> -i <YOUR_SPLUNK_ENTERPRISE_IP_HERE> -e <YOUR_SPLUNK_ENTERPRISE_HEC_TOKEN_HERE>
 #
 parser = argparse.ArgumentParser(description="DataDrivers - iRacing Metric Sender")
 parser.add_argument("-n", "--name", help="Your iRacing Racer Name", required=True)
-parser.add_argument("-t", "--token", help="Splunk SIM Ingest Token", required=False)
-parser.add_argument("-i", "--ip", help="Splunk Enterprise IP Address", required=False)
-parser.add_argument("-e", "--enterprisetoken", help="Splunk Enterprise HEC Token", required=False)
+parser.add_argument("-t", "--token", help="Splunk SIM Ingest Token", required=True)
+parser.add_argument("-i", "--ip", help="Splunk Enterprise IP Address", required=True)
+parser.add_argument("-e", "--enterprisetoken", help="Splunk Enterprise HEC Token", required=True)
 args = vars(parser.parse_args())
 
 #################################
@@ -32,9 +32,9 @@ ingest = client.ingest(args["token"])
 
 
 # Splunk enterprise variables
-splunk_hec_ip = client.ingest(args["ip"])
+splunk_hec_ip = args["ip"]
 splunk_hec_port = "8088"
-splunk_hec_token = client.ingest(args["enterprisetoken"])
+splunk_hec_token = args["enterprisetoken"]
 
 # Uncomment the following line to enable debug logging
 # logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)

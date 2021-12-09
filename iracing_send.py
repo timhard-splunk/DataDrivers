@@ -15,26 +15,34 @@ import requests
 # Syntax:
 # python3 iracing_send.py -name <YOUR_NAME_HERE> -token <YOUR_TOKEN_HERE> -i <YOUR_SPLUNK_ENTERPRISE_IP_HERE> -e <YOUR_SPLUNK_ENTERPRISE_HEC_TOKEN_HERE>
 #
-parser = argparse.ArgumentParser(description="DataDrivers - iRacing Metric Sender")
-parser.add_argument("-n", "--name", help="Your iRacing Racer Name", required=True)
-parser.add_argument("-t", "--token", help="Splunk SIM Ingest Token", required=True)
-parser.add_argument("-i", "--ip", help="Splunk Enterprise IP Address", required=True)
-parser.add_argument("-e", "--enterprisetoken", help="Splunk Enterprise HEC Token", required=True)
-args = vars(parser.parse_args())
+#parser = argparse.ArgumentParser(description="DataDrivers - iRacing Metric Sender")
+#parser.add_argument("-n", "--name", help="Your iRacing Racer Name", required=True)
+#parser.add_argument("-t", "--token", help="Splunk SIM Ingest Token", required=True)
+#parser.add_argument("-i", "--ip", help="Splunk Enterprise IP Address", required=True)
+#parser.add_argument("-e", "--enterprisetoken", help="Splunk Enterprise HEC Token", required=True)
+#args = vars(parser.parse_args())
+
+#################################
+#   Change your variables here  #
+#################################
+
+
+name = input("Please enter your name: ")
+team_name = input("Please enter your team name: ")
+
+# SIM variables
+sim_token = "Token"
+client = signalfx.SignalFx(ingest_endpoint="https://ingest.us1.signalfx.com")
+ingest = client.ingest(sim_token)
+
+# Splunk enterprise variables
+splunk_hec_ip = "IP"
+splunk_hec_port = "8088"
+splunk_hec_token = "Token"
 
 #################################
 # Don't touch anything below this#
 #################################
-
-# SIM variables
-client = signalfx.SignalFx(ingest_endpoint="https://ingest.us1.signalfx.com")
-ingest = client.ingest(args["token"])
-
-
-# Splunk enterprise variables
-splunk_hec_ip = args["ip"]
-splunk_hec_port = "8088"
-splunk_hec_token = args["enterprisetoken"]
 
 # Uncomment the following line to enable debug logging
 # logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
@@ -213,7 +221,8 @@ def send_lap_event(counter):
             event_type="Lap Complete",
             category="USER_DEFINED",
             dimensions={
-                "driver": args["name"],
+                "driver": name,
+                "TeamName": team_name,
                 "lap": str(metrics_dict["Lap"]),
                 "LapTime": str(metrics_dict["LapCurrentLapTime"]),
                 "LapDistance": str(metrics_dict["LapDist"]),
@@ -233,7 +242,8 @@ def send_metric(ir_json):
                     "value": value,
                     "timestamp": time.time() * 1000,
                     "dimensions": {
-                        "driver": args["name"],
+                        "driver": name,
+                        "TeamName": team_name,
                         "lap": str(ir_json["Lap"]),
                         "session_id": str(ir_json["SessionUniqueID"]),
                     },
@@ -245,11 +255,12 @@ def send_metric(ir_json):
 def send_hec(ir_json):
     ir_json['ts_send'] = str(datetime.utcnow())
     event={}
-    event['host'] = args["name"]
+    event['host'] = name
     event['source'] = "iracing"
     event['event'] = ir_json
     url = str("http://" + splunk_hec_ip + ":" + splunk_hec_port + "/services/collector")
     header = {'Authorization' : '{}'.format('Splunk ' + splunk_hec_token)}
+    #print(ir_json)
     try:
         response = requests.post(
             url=url,
@@ -259,12 +270,44 @@ def send_hec(ir_json):
 
     except requests.exceptions.HTTPError as err:
         print(err)
+        
+def get_race_metadata():
+    weekendinfo_meta={'TrackName' : "",
+                 'TrackDisplayName' : "",
+                 'TrackCity': "",
+                 'TrackCountry': "",
+                 'TrackID': "",
+                 'TrackLength': "",
+                 'TrackNumTurns': "",
+                 'SeriesID': "",
+                 'SeasonID': "",
+                 'SessionID': "",
+                 'SubSessionID': "",
+                 'LeagueID': "",
+                 'Official': "",
+                 'RaceWeek': "",
+                 'EventType': "",
+                 'Category': ""}
 
+    race_meta={}
+
+    weekendinfo = ir['WeekendInfo']
+    for key, value in weekendinfo_meta.items():
+        value = weekendinfo[key]
+        race_meta.update({key: value})
+
+    driverinfo= ir['DriverInfo']
+    race_meta.update({'DriverCarEngCylinderCount': driverinfo['DriverCarEngCylinderCount']})
+    race_meta.update({'CarScreenName': driverinfo['Drivers'][0]['CarScreenName']})
+    
+    return race_meta
 
 def loop(json_dict):
     for key, value in json_dict.items():
         value = ir[key]
         json_dict.update({key: value})
+        
+    json_dict.update(get_race_metadata())
 
     send_lap_event(lapCounter)
     send_hec(json_dict)

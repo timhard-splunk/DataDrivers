@@ -10,31 +10,41 @@ import signalfx
 import irsdk
 import argparse
 import requests
-
+import eel
 
 # Syntax:
 # python3 iracing_send.py -name <YOUR_NAME_HERE> -token <YOUR_TOKEN_HERE> -i <YOUR_SPLUNK_ENTERPRISE_IP_HERE> -e <YOUR_SPLUNK_ENTERPRISE_HEC_TOKEN_HERE>
 #
-parser = argparse.ArgumentParser(description="DataDrivers - iRacing Metric Sender")
-parser.add_argument("-n", "--name", help="Your iRacing Racer Name", required=True)
-parser.add_argument("-t", "--token", help="Splunk SIM Ingest Token", required=True)
-parser.add_argument("-i", "--ip", help="Splunk Enterprise IP Address", required=True)
-parser.add_argument("-e", "--enterprisetoken", help="Splunk Enterprise HEC Token", required=True)
-args = vars(parser.parse_args())
+#parser = argparse.ArgumentParser(description="DataDrivers - iRacing Metric Sender")
+#parser.add_argument("-n", "--name", help="Your iRacing Racer Name", required=True)
+#parser.add_argument("-t", "--token", help="Splunk SIM Ingest Token", required=True)
+#parser.add_argument("-i", "--ip", help="Splunk Enterprise IP Address", required=True)
+#parser.add_argument("-e", "--enterprisetoken", help="Splunk Enterprise HEC Token", required=True)
+#args = vars(parser.parse_args())
 
 #################################
 # Don't touch anything below this#
 #################################
 
 # SIM variables
-client = signalfx.SignalFx(ingest_endpoint="https://ingest.us1.signalfx.com")
-ingest = client.ingest(args["token"])
+client = signalfx.SignalFx(ingest_endpoint="https://ingest.datadrivers.racing")
+
+global ingest
+global driver_team
+global driver_name
 
 
-# Splunk enterprise variables
-splunk_hec_ip = args["ip"]
-splunk_hec_port = "8088"
-splunk_hec_token = args["enterprisetoken"]
+eel.init('app_contents/')
+@eel.expose
+def set_racing_parameters(driver_name_cs, driver_team_cs, token):
+    driver_name = driver_name_cs
+    driver_team = driver_team_cs
+    ingest = client.ingest(token)
+    print("Set Driver name to: " + str(driver_name))
+    print("Set Driver team to: " + str(driver_team))
+    print("Set token to: " + str(token))
+
+
 
 # Uncomment the following line to enable debug logging
 # logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
@@ -213,7 +223,7 @@ def send_lap_event(counter):
             event_type="Lap Complete",
             category="USER_DEFINED",
             dimensions={
-                "driver": args["name"],
+                "driver": driver_name,
                 "lap": str(metrics_dict["Lap"]),
                 "LapTime": str(metrics_dict["LapCurrentLapTime"]),
                 "LapDistance": str(metrics_dict["LapDist"]),
@@ -233,7 +243,7 @@ def send_metric(ir_json):
                     "value": value,
                     "timestamp": time.time() * 1000,
                     "dimensions": {
-                        "driver": args["name"],
+                        "driver": driver_name,
                         "lap": str(ir_json["Lap"]),
                         "session_id": str(ir_json["SessionUniqueID"]),
                     },
@@ -245,7 +255,7 @@ def send_metric(ir_json):
 def send_hec(ir_json):
     ir_json['ts_send'] = str(datetime.utcnow())
     event={}
-    event['host'] = args["name"]
+    event['host'] = driver_name
     event['source'] = "iracing"
     event['event'] = ir_json
     url = str("http://" + splunk_hec_ip + ":" + splunk_hec_port + "/services/collector")
@@ -266,10 +276,10 @@ def loop(json_dict):
         value = ir[key]
         json_dict.update({key: value})
 
-    send_lap_event(lapCounter)
-    send_hec(json_dict)
-    send_metric(json_dict)
-    
+    #send_lap_event(lapCounter)
+    #send_hec(json_dict)
+    #send_metric(json_dict)
+
 
 if __name__ == "__main__":
     # initializing ir and state
@@ -277,6 +287,8 @@ if __name__ == "__main__":
     state = State()
     print(datetime.now().strftime("%m/%d/%Y %H:%M:%S") + " iRacing started")
 
+    eel.start('static/datadrivers.html', mode='default',
+                                     port=8025, block=False)
     # instantiate lap counter for sending lap completion events
     lapCounter = Counter()
     ir.startup()

@@ -1,0 +1,84 @@
+  .title{
+    position: relative;
+  }
+
+  .title-span{
+    text-align: center;
+    display:block;
+    margin: auto;
+    line-height: 1.3;
+  }
+
+  .logo {
+    height: 226px;
+    position: relative;
+  }
+
+  .left-logo img {
+    display:block;
+    margin:auto;
+    max-height: 100%;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right:0;
+    margin: auto;
+  }
+
+  .right-logo img {
+    display:block;
+    margin:auto;
+    max-height: 100%;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left:0;
+    margin: auto;
+  }
+
+  .padding {
+      padding-bottom: 25px;
+  }
+
+  .submit-div{
+    float: right;
+    padding: 15px 15px 50px 0px;
+  }
+
+  /* label focus color */
+  .input-field input:focus + label {
+    color: #ed0080 !important;
+  }
+
+  /* label underline focus color */
+  .row .input-field input:focus {
+    border-bottom: 1px solid #ed0080 !important;
+    box-shadow: 0 1px 0 0 #ed0080 !important
+  }
+
+  /* valid color */
+  .input-field input[type=text].valid {
+    border-bottom: 1px solid #ed0080;
+    box-shadow: 0 1px 0 0 #ed0080;
+  }
+
+  .elevate {
+    background: linear-gradient(-60deg,#f99d1c,#f99c1c 10%,#f4781f 30%,#f16221 43%,#f05a22 58%,#ee1d62 76%,#ed0080 97%);
+    background-color: rgba(0, 0, 0, 0);
+    background-position-x: 0%;
+    background-position-y: 0%;
+    background-repeat: repeat;
+    background-attachment: scroll;
+    background-image: linear-gradient(-60deg, rgb(249, 157, 28), rgb(249, 156, 28) 10%, rgb(244, 120, 31) 30%, rgb(241, 98, 33) 43%, rgb(240, 90, 34) 58%, rgb(238, 29, 98) 76%, rgb(237, 0, 128) 97%);
+    background-size: auto;
+    background-origin: padding-box;
+    background-clip: border-box;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
